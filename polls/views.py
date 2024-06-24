@@ -34,4 +34,4 @@ def user_registration_view(request):
     else:
         form = UserRegistrationForm()
 
-    return render(request, 'user_registration_form.html', {'form': form})
+    return render(request, 'polls/user_registration_form.html', {'form': form})
