@@ -5,9 +5,11 @@ from polls.models import Event, RegistrantDetails, DetailsOfStay
 # Create your views here.
 
 def home(request):
-    return render(request, 'polls/home.html')
+    events = Event.objects.all()
+    return render(request, 'polls/home.html', {'events': events})
 
 def user_registration_view(request):
+    event_id = request.GET.get('event_id')
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -32,6 +34,10 @@ def user_registration_view(request):
             )
             return redirect('success')  # Redirect to a success page
     else:
-        form = UserRegistrationForm()
+        if event_id:
+            event = Event.objects.get(id=event_id)
+            form = UserRegistrationForm(initial={'event': event})
+        else:
+            form = UserRegistrationForm()
 
     return render(request, 'polls/user_registration_form.html', {'form': form})
