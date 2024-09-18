@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+		<title>Reservation System</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+	</head>
+    <body>
+        <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Main -->
+            <div id="main">
+                <div class="inner">
+
+                    <!-- Header -->
+                    <header id="header">
+                
+                    </header>
+                        <h4>Events</h4>
+                            <h5>{{ event.title }}</h5>
+                            <p>Date: {{ event.date }}</p>
+                            <p>Description: {{ event.description }}</p>
+                            <p>Contact Person: {{ event.contact_person }}</p>
+
+                            <h5>Your registration ID: {{ registrant.id }}</h5>
+                                <div class="row">
+                                    <div class="col-6 col-12-small">
+                                        <ul class="alt">
+                                            <li>Name {{ registrant.name }} {{ registrant.surname }}</li>
+                                            <li>Email {{ registrant.email }}</li>
+                                            <li>Center {{ registrant.center }}</li>
+                                            <li>Dietary Preference {{ registrant.veg_meat }}</li>
+
+                                            {% if stay_details %}
+                                                {% for stay in stay_details %}
+                                                    <li>Arriving at {{ stay.time_of_arriving }}</li>
+                                                    <li>Stay Overnight {{ stay.stay_overnight }}</li>
+                                                    <li>Departure {{ stay.departure }}</li>
+                                                {% endfor %}
+                                            {% else %}
+                                                <li>No stay details availible</li>
+                                            {% endif %}
+                                        </ul>
+
+                                    </div>
+                                </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

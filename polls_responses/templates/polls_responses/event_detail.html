@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+		<title>Reservation System</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+	</head>
+    <body>
+        <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Main -->
+            <div id="main">
+                <div class="inner">
+
+                    <!-- Header -->
+                    <header id="header">
+                        <!-- <a href="index.html" class="logo"><strong>Registration</strong> for Tenovice</a> -->
+                
+                    </header>
+                        <h4>Events</h4>
+                            <h5>{{ event.title }}</h5>
+                            <p>Date: {{ event.date }}</p>
+                            <p>Description: {{ event.description }}</p>
+                            <p>Contact Person: {{ event.contact_person }}</p>
+
+                            <h5>Registrants:</h5>
+                                <div class="table-wrapper">
+                                    <table class="alt">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Surname</th>
+                                                <th>Email</th>
+                                                <th>Center</th>
+                                                <th>Dietary Preference</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for registrant in registrants %}
+                                            <tr>
+                                                <td>{{ registrant.name }}</td>
+                                                <td>{{ registrant.surname }}</td>
+                                                <td>{{ registrant.email }}</td>
+                                                <td>{{ registrant.center }}</td>
+                                                <td>{{ registrant.veg_meat }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</body>
+</html>

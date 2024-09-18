@@ -1,4 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+from django.core.mail import send_mail
+from django.conf import settings
 from polls.forms import UserRegistrationForm
 from polls.models import Event, RegistrantDetails, DetailsOfStay
 
@@ -32,10 +35,25 @@ def user_registration_view(request):
                 departure=form.cleaned_data['departure'],
                 registrant=registrant
             )
-            return redirect('success')  # Redirect to a success page
+
+            registrant_detail_url = request.build_absolute_uri(
+                reverse('registrant_details', args=[event.id, registrant.id])
+            )
+
+            subject = 'Your Tenovice Registration Confirmation'
+            message = f'Dear {registrant.name},\n\nThank you for registering for the event "{event.title}". You can view your registration details at the following link:\n\n{registrant_detail_url}\n\nBest regards,\nYour Tenovice Team'
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [registrant.email],
+                fail_silently=False,
+            )
+
+            return render(request, 'polls/success.html', {'registrant_detail_url': registrant_detail_url})  # Redirect to a success page
     else:
         if event_id:
-            event = Event.objects.get(id=event_id)
+            event = get_object_or_404(Event, id=event_id)
             form = UserRegistrationForm(initial={'event': event})
         else:
             form = UserRegistrationForm()
